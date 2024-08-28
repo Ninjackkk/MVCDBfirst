@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using MVCDBFirst.Data;
 
@@ -7,6 +8,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<Testdb123Context>(options=>options.UseSqlServer(builder.Configuration.GetConnectionString("dbconn")));
+
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+
+});  // adding session services .
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+        option.LoginPath = "/Account/SignIn";
+        option.AccessDeniedPath = "/Account/SignIn";
+    });   // adding cookies services .
+
+
+
+
 
 var app = builder.Build();
 
@@ -23,10 +46,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession(); // Add this line before UseAuthentication
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Test}/{action=AddEmp}/{id?}");
+    pattern: "{controller=Sp}/{action=Index}/{id?}");
 
 app.Run();

@@ -1,0 +1,14 @@
+﻿@using MVCDBFirst.Models;
+@model Emp
+
+
+@if (TempData["Success"] != null)
+{
+    @TempData["Success"];
+}
+<form method="post">
+    <input type="text" asp-for="Name" placeholder="Enter Name" />
+    <input type="text" asp-for="Email" placeholder="Enter Email" />
+    <input type="text" asp-for="Salary" placeholder="Enter Salary" />
+    <button type="submit">Submit</button>
+</form>
