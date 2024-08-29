@@ -6,7 +6,8 @@
 {
     @TempData["Success"];
 }
-<form method="post">
+<form method="post" asp-action="AddorUpd">
+    <input type="text" asp-for="Id" readonly/>
     <input type="text" asp-for="Name" placeholder="Enter Name" />
     <input type="text" asp-for="Email" placeholder="Enter Email" />
     <input type="text" asp-for="Salary" placeholder="Enter Salary" />

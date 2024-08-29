@@ -1,5 +1,5 @@
 ﻿@using MVCDBFirst.Models
-@model List<Emp>
+@model Emp
 
 <style>
     table {
@@ -21,10 +21,7 @@
         background-color: #f9f9f9; /* Optional: Adds a background color to the table header row */
     }
 </style>
-
-
-<a asp-action="AddorUpd"><input type="submit" value="Add Emp" /></a>
-
+<form method="post">
 <table>
     <thead>
         <tr>
@@ -36,17 +33,18 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var d in Model)
-        {
+       
             <tr>
-                <td>@d.Id</td>
-                <td>@d.Name</td>
-                <td>@d.Email</td>
-                <td>@d.Salary</td>
+             <td><input type="number" asp-for="Id"/></td>
+            <td><input type="text" asp-for="Name" /></td>
+            <td><input type="text" asp-for="Email" /></td>
+            <td><input type="number" asp-for="Salary" /></td>
                 <td>
-                    <a asp-action="AddorUpd" asp-route-id="@d.Id">Edit</a>
+                <input type="submit" asp-action="EditSpEmp" asp-route-id="@Model.Id">Update<input />
                 </td>
-            </tr>
-        }
+         
+          </tr>
+ 
     </tbody>
 </table>
+</form>

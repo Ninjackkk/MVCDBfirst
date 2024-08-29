@@ -52,6 +52,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Sp}/{action=Index}/{id?}");
+    pattern: "{controller=Sp}/{action=AddSpEmp}/{id?}");
 
 app.Run();

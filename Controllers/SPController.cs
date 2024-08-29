@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVCDBFirst.Data;
 using MVCDBFirst.Models;
@@ -18,20 +19,43 @@ namespace MVCDBFirst.Controllers
            return View(data);
         }
 
-        public IActionResult AddSpEmp()
+        public IActionResult AddorUpd(Emp e)
         {
-            return View();
+            
+            db.Database.ExecuteSqlRaw($"exec Insertorupd {e.Id},'{e.Name}','{e.Email}','{e.Salary}'");
+            if (e.Id == null)
+            {
+                TempData["Success"] = "Emp Add Using Stored Procedure Success";
+            }
+            else
+            {
+                TempData["Successupd"] = "Emp Updated Using Stored Procedure Success";
+            }
+            return View("AddSpEmp");
         }
-        [HttpPost]
-        public IActionResult AddSpEmp(Emp e)
-        {
-            db.Database.ExecuteSqlRaw($"exec InsertEmployee'{e.Name}','{e.Email}',{e.Salary}" );
+        //public IActionResult AddSpEmp()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public IActionResult AddSpEmp(Emp e)
+        //{
+        //    db.Database.ExecuteSqlRaw($"exec InsertEmployee'{e.Name}','{e.Email}',{e.Salary}" );
 
-            TempData["Success"] = "Emp Add Using Stored Procedure Success";
-            return RedirectToAction("AddSpEmp");
-        }
+        //    TempData["Success"] = "Emp Add Using Stored Procedure Success";
+        //    return RedirectToAction("AddSpEmp");
+        //}
 
-
-
+        //public IActionResult EditSpEmp(int id) 
+        //{
+        //   var d = db.Emps.FromSqlRaw($"exec fetchrecordbyid'{id}'").ToList().SingleOrDefault();
+        //    return View(d);
+        //}
+        //[HttpPost]
+        //public IActionResult EditSpEmp(Emp e)
+        //{
+        //    db.Database.ExecuteSqlRaw($"exec editemp'{e.Id}','{e.Name}','{e.Email}','{e.Salary}'");
+        //    return RedirectToAction("Index");
+        //}
     }
 }
